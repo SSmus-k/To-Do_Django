@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<h2>My Tasks</h2>
+<a href="{% url 'task_create' %}" class="btn btn-primary">Add New Task</a>
+
+<h3>Pending Tasks</h3>
+{% if pending_tasks %}
+<ul class="task-list">
+    {% for task in pending_tasks %}
+    <li class="task-item {% if task.priority == 'High' %}high-priority{% elif task.priority == 'Medium' %}medium-priority{% else %}low-priority{% endif %}">
+        <div class="task-content">
+            <h4>{{ task.title }}</h4>
+            {% if task.description %}<p>{{ task.description }}</p>{% endif %}
+            <small>Priority: {{ task.priority }} | Due: {{ task.due_date|default:"No due date" }} | Created: {{ task.created_at }}</small>
+        </div>
+        <div class="task-actions">
+            <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-success">Complete</a>
+            <a href="{% url 'task_update' task.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No pending tasks.</p>
+{% endif %}
+
+<h3>Completed Tasks</h3>
+{% if completed_tasks %}
+<ul class="task-list completed">
+    {% for task in completed_tasks %}
+    <li class="task-item completed-item">
+        <div class="task-content">
+            <h4>{{ task.title }}</h4>
+            {% if task.description %}<p>{{ task.description }}</p>{% endif %}
+            <small>Priority: {{ task.priority }} | Due: {{ task.due_date|default:"No due date" }} | Created: {{ task.created_at }}</small>
+        </div>
+        <div class="task-actions">
+            <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-secondary">Uncomplete</a>
+            <a href="{% url 'task_update' task.pk %}" class="btn btn-warning">Edit</a>
+            <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No completed tasks.</p>
+{% endif %}
+{% endblock %}
