@@ -1,52 +1,110 @@
 {% extends 'base.html' %}
 
-{% block title %}My Tasks{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
 {% block content %}
-<h2>My Tasks</h2>
-<a href="{% url 'task_create' %}" class="btn btn-primary">Add New Task</a>
+<div class="dashboard">
+    <header class="dashboard-header">
+        <h1>Good morning, {{ user.first_name|default:user.username }}!</h1>
+        <p>Let's make today productive.</p>
+    </header>
 
-<h3>Pending Tasks</h3>
-{% if pending_tasks %}
-<ul class="task-list">
-    {% for task in pending_tasks %}
-    <li class="task-item {% if task.priority == 'High' %}high-priority{% elif task.priority == 'Medium' %}medium-priority{% else %}low-priority{% endif %}">
-        <div class="task-content">
-            <h4>{{ task.title }}</h4>
-            {% if task.description %}<p>{{ task.description }}</p>{% endif %}
-            <small>Priority: {{ task.priority }} | Due: {{ task.due_date|default:"No due date" }} | Created: {{ task.created_at }}</small>
+    <section class="today-activities">
+        <h2>Today Activities</h2>
+        <div class="activity-cards">
+            <a href="{% url 'task_create' %}" class="activity-card">
+                <div class="activity-icon">📝</div>
+                <h3>Plan Day</h3>
+                <p>Organize your tasks</p>
+            </a>
+            <a href="{% url 'habit_create' %}" class="activity-card">
+                <div class="activity-icon">🎯</div>
+                <h3>Set Goals</h3>
+                <p>Define objectives</p>
+            </a>
+            <a href="{% url 'reminder_create' %}" class="activity-card">
+                <div class="activity-icon">⏰</div>
+                <h3>Time Block</h3>
+                <p>Schedule focus time</p>
+            </a>
         </div>
-        <div class="task-actions">
-            <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-success">Complete</a>
-            <a href="{% url 'task_update' task.pk %}" class="btn btn-warning">Edit</a>
-            <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a>
-        </div>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No pending tasks.</p>
-{% endif %}
+    </section>
 
-<h3>Completed Tasks</h3>
-{% if completed_tasks %}
-<ul class="task-list completed">
-    {% for task in completed_tasks %}
-    <li class="task-item completed-item">
-        <div class="task-content">
-            <h4>{{ task.title }}</h4>
-            {% if task.description %}<p>{{ task.description }}</p>{% endif %}
-            <small>Priority: {{ task.priority }} | Due: {{ task.due_date|default:"No due date" }} | Created: {{ task.created_at }}</small>
+    <section class="habits-section">
+        <h2>Daily Habits <a href="{% url 'habit_create' %}" class="add-link">+</a></h2>
+        <div class="habit-cards">
+            {% for habit in habits %}
+            <div class="habit-card">
+                <div class="habit-icon">{{ habit.icon }}</div>
+                <h4>{{ habit.name }}</h4>
+                <div class="habit-progress">
+                    <div class="progress-bar" style="width: {{ habit.progress }}%"></div>
+                </div>
+                <div class="habit-actions">
+                    <a href="{% url 'toggle_habit' habit.pk %}" class="btn btn-primary">Complete</a>
+                    <a href="{% url 'habit_update' habit.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'habit_delete' habit.pk %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>No habits yet. <a href="{% url 'habit_create' %}">Add one</a></p>
+            {% endfor %}
         </div>
-        <div class="task-actions">
-            <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-secondary">Uncomplete</a>
-            <a href="{% url 'task_update' task.pk %}" class="btn btn-warning">Edit</a>
-            <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a>
+    </section>
+
+    <section class="reminders-section">
+        <h2>Reminders & Planner <a href="{% url 'reminder_create' %}" class="add-link">+</a></h2>
+        <div class="reminder-cards">
+            {% for reminder in reminders %}
+            <div class="reminder-card">
+                <h4>{{ reminder.title }}</h4>
+                <p>{{ reminder.time }}{% if reminder.date %} - {{ reminder.date }}{% endif %}</p>
+                <div class="reminder-actions">
+                    <a href="{% url 'reminder_update' reminder.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'reminder_delete' reminder.pk %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+            {% empty %}
+            <p>No reminders yet. <a href="{% url 'reminder_create' %}">Add one</a></p>
+            {% endfor %}
         </div>
-    </li>
-    {% endfor %}
-</ul>
-{% else %}
-<p>No completed tasks.</p>
-{% endif %}
+    </section>
+
+    <section class="todo-section">
+        <h2>To-Do List</h2>
+        <div class="todo-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="To Do">To Do</button>
+            <button class="filter-btn" data-filter="In Progress">In Progress</button>
+            <button class="filter-btn" data-filter="Completed">Completed</button>
+        </div>
+        <div class="todo-list">
+            {% for task in tasks %}
+            <div class="todo-item" data-status="{{ task.status }}">
+                <div class="todo-content">
+                    <h4>{{ task.title }}</h4>
+                    {% if task.description %}<p>{{ task.description }}</p>{% endif %}
+                    <div class="todo-meta">
+                        <span class="priority {{ task.priority|lower }}">{{ task.priority }}</span>
+                        <span class="category">{{ task.category }}</span>
+                        {% if task.due_date %}<span class="due-date">{{ task.due_date }}</span>{% endif %}
+                    </div>
+                </div>
+                <div class="todo-actions">
+                    {% if task.status == 'To Do' %}
+                        <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-primary">Start</a>
+                    {% elif task.status == 'In Progress' %}
+                        <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-success">Complete</a>
+                    {% else %}
+                        <a href="{% url 'toggle_complete' task.pk %}" class="btn btn-secondary">Reopen</a>
+                    {% endif %}
+                    <a href="{% url 'task_update' task.pk %}" class="btn btn-warning">Edit</a>
+                    <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{% url 'task_create' %}" class="btn btn-primary add-task-btn">+ Add New Task</a>
+    </section>
+</div>
 {% endblock %}

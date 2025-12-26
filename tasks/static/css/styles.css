@@ -1,228 +1,393 @@
-/* CSS Variables for Theming */
+/* ===============================
+   ROOT VARIABLES & THEME
+================================ */
 :root {
-    --bg-color: #ffffff;
-    --text-color: #333333;
-    --nav-bg: #f8f9fa;
-    --nav-text: #333333;
-    --btn-primary: #007bff;
-    --btn-success: #28a745;
-    --btn-warning: #ffc107;
-    --btn-danger: #dc3545;
-    --btn-secondary: #6c757d;
-    --task-bg: #f8f9fa;
-    --task-border: #dee2e6;
-    --high-priority: #ffcccc;
-    --medium-priority: #fff3cd;
-    --low-priority: #d1ecf1;
-    --completed-bg: #e9ecef;
+    --bg-main: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    --bg-glass: rgba(255, 255, 255, 0.08);
+    --border-glass: rgba(255, 255, 255, 0.18);
+
+    --accent-1: #7f5af0;
+    --accent-2: #2cb67d;
+    --accent-3: #ff8906;
+    --accent-4: #ff6b6b;
+
+    --text-main: #ffffff;
+    --text-muted: rgba(255, 255, 255, 0.65);
 }
 
-[data-theme="dark"] {
-    --bg-color: #121212;
-    --text-color: #ffffff;
-    --nav-bg: #1e1e1e;
-    --nav-text: #ffffff;
-    --btn-primary: #0d6efd;
-    --btn-success: #198754;
-    --btn-warning: #fd7e14;
-    --btn-danger: #dc3545;
-    --btn-secondary: #6c757d;
-    --task-bg: #2d2d2d;
-    --task-border: #495057;
-    --high-priority: #4d1a1a;
-    --medium-priority: #4d3d1a;
-    --low-priority: #1a3d4d;
-    --completed-bg: #3d3d3d;
-}
-
-/* Global Styles */
-body {
-    font-family: Arial, sans-serif;
+/* ===============================
+   RESET
+================================ */
+* {
     margin: 0;
     padding: 0;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
+    box-sizing: border-box;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    background: var(--bg-main);
+    color: var(--text-main);
+}
+
+/* ===============================
+   APP LAYOUT
+================================ */
+.app-container {
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 20px;
     padding: 20px;
 }
 
-/* Navbar */
-.navbar {
-    background-color: var(--nav-bg);
-    color: var(--nav-text);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--task-border);
+/* ===============================
+   SIDEBAR
+================================ */
+.sidebar {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 22px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
 }
 
-.nav-container {
-    max-width: 1200px;
-    margin: 0 auto;
+.logo {
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    color: #fff;
+    transform: translateX(6px);
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, var(--accent-3), var(--accent-4));
+    color: #fff;
+}
+
+/* ===============================
+   THEME SWITCHER
+================================ */
+.theme-switcher {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.theme-switcher button {
+    border: none;
+    padding: 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+    transition: transform 0.2s ease;
+}
+
+.theme-switcher button:hover {
+    transform: scale(1.05);
+}
+
+#theme-custom {
+    grid-column: span 2;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+}
+
+/* ===============================
+   MAIN CONTENT
+================================ */
+.main-content {
+    background: var(--bg-glass);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 26px;
+    padding: 32px;
+}
+
+/* ===============================
+   RIGHT PANEL
+================================ */
+.right-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel-section {
+    background: var(--bg-glass);
+    backdrop-filter: blur(14px);
+    border: 1px solid var(--border-glass);
+    border-radius: 22px;
+    padding: 20px;
+}
+
+.panel-section h3 {
+    margin-bottom: 14px;
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-3));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* ===============================
+   DASHBOARD HEADER
+================================ */
+.dashboard-header {
+    margin-bottom: 32px;
+}
+
+.dashboard-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-3));
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.dashboard-header p {
+    color: var(--text-muted);
+    margin-top: 6px;
+}
+
+/* ===============================
+   SECTIONS
+================================ */
+.dashboard section {
+    margin-bottom: 40px;
+}
+
+.dashboard h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.add-link {
+    margin-left: auto;
+    text-decoration: none;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+    background: linear-gradient(135deg, var(--accent-2), var(--accent-3));
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+}
+
+/* ===============================
+   ACTIVITY CARDS
+================================ */
+.activity-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.activity-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+    border: 1px solid var(--border-glass);
+    border-radius: 20px;
+    padding: 24px;
+    text-decoration: none;
+    color: #fff;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.activity-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+}
+
+.activity-icon {
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+/* ===============================
+   HABITS
+================================ */
+.habit-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.habit-card {
+    background: var(--bg-glass);
+    border: 1px solid var(--border-glass);
+    border-radius: 22px;
+    padding: 20px;
+    backdrop-filter: blur(14px);
+}
+
+.habit-icon {
+    font-size: 26px;
+    margin-bottom: 10px;
+}
+
+.habit-progress {
+    height: 8px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 12px 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-2), var(--accent-4));
+}
+
+/* ===============================
+   REMINDERS
+================================ */
+.reminder-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.reminder-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+    border-radius: 18px;
+    padding: 18px;
+    border: 1px solid var(--border-glass);
+}
+
+/* ===============================
+   TODO FILTERS
+================================ */
+.todo-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255,255,255,0.12);
+    transition: 0.25s;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+}
+
+/* ===============================
+   TODO LIST
+================================ */
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.todo-item {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-    flex-wrap: wrap;
+    gap: 16px;
+    background: var(--bg-glass);
+    border-radius: 22px;
+    padding: 20px;
+    border: 1px solid var(--border-glass);
+    backdrop-filter: blur(12px);
 }
 
-.nav-title {
-    margin: 0;
-    font-size: 1.5em;
-}
-
-.nav-search form {
+.todo-meta {
     display: flex;
     gap: 10px;
+    margin-top: 8px;
+    font-size: 13px;
 }
 
-.nav-search input {
-    padding: 5px;
-    border: 1px solid var(--task-border);
-    border-radius: 4px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
+/* ===============================
+   PRIORITY BADGES
+================================ */
+.priority {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 600;
 }
 
-.nav-search button {
-    padding: 5px 10px;
-    background-color: var(--btn-primary);
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.priority.low {
+    background: linear-gradient(135deg, #2cb67d, #00d9a5);
 }
 
-.nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.priority.medium {
+    background: linear-gradient(135deg, #ff8906, #ffb703);
 }
 
-.nav-actions a, .nav-actions button {
-    color: var(--nav-text);
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+.priority.high {
+    background: linear-gradient(135deg, #ff6b6b, #ff2e63);
 }
 
-.nav-actions button {
-    background: none;
-    border: 1px solid var(--task-border);
-    cursor: pointer;
-}
-
-/* Buttons */
+/* ===============================
+   BUTTONS
+================================ */
 .btn {
-    display: inline-block;
-    padding: 8px 16px;
+    padding: 8px 14px;
+    border-radius: 12px;
+    font-weight: 600;
     text-decoration: none;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
+    color: #fff;
+    display: inline-block;
+    transition: transform 0.2s ease;
 }
-
-.btn-primary { background-color: var(--btn-primary); color: white; }
-.btn-success { background-color: var(--btn-success); color: white; }
-.btn-warning { background-color: var(--btn-warning); color: black; }
-.btn-danger { background-color: var(--btn-danger); color: white; }
-.btn-secondary { background-color: var(--btn-secondary); color: white; }
 
 .btn:hover {
-    opacity: 0.8;
+    transform: translateY(-2px);
 }
 
-/* Task List */
-.task-list {
-    list-style: none;
-    padding: 0;
+.btn-primary   { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); }
+.btn-success   { background: linear-gradient(135deg, #2cb67d, #00d9a5); }
+.btn-warning   { background: linear-gradient(135deg, #ffb703, #ff8906); }
+.btn-danger    { background: linear-gradient(135deg, #ff6b6b, #ff2e63); }
+.btn-secondary { background: rgba(255,255,255,0.25); }
+
+.add-task-btn {
+    margin-top: 20px;
+    display: inline-block;
 }
 
-.task-item {
-    background-color: var(--task-bg);
-    border: 1px solid var(--task-border);
-    border-radius: 8px;
-    margin-bottom: 10px;
-    padding: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-}
 
-.task-content {
-    flex: 1;
-}
-
-.task-content h4 {
-    margin: 0 0 5px 0;
-}
-
-.task-content p {
-    margin: 5px 0;
-}
-
-.task-content small {
-    color: #666;
-}
-
-.task-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.high-priority { border-left: 5px solid var(--btn-danger); }
-.medium-priority { border-left: 5px solid var(--btn-warning); }
-.low-priority { border-left: 5px solid var(--btn-secondary); }
-
-.completed .task-item {
-    background-color: var(--completed-bg);
-    opacity: 0.7;
-}
-
-/* Forms */
-form p {
-    margin-bottom: 15px;
-}
-
-form label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-form input, form textarea, form select {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--task-border);
-    border-radius: 4px;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-}
-
-form textarea {
-    height: 100px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .task-item {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .task-actions {
-        margin-top: 10px;
-    }
-}
+/* ====================================================== FORM CONTAINER (CREATE / EDIT) ====================================================== */ .main-content form { max-width: 520px; background: var(--bg-glass); backdrop-filter: blur(16px); border: 1px solid var(--border-glass); border-radius: 24px; padding: 28px; } /* Django form.as_p */ .main-content form p { display: flex; flex-direction: column; margin-bottom: 18px; } .main-content label { font-size: 14px; font-weight: 600; margin-bottom: 6px; color: var(--text-muted); } /* Inputs */ .main-content input, .main-content select, .main-content textarea { padding: 12px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.08); color: #fff; font-size: 14px; outline: none; } .main-content textarea { min-height: 90px; } /* Focus */ .main-content input:focus, .main-content select:focus, .main-content textarea:focus { border-color: var(--accent-1); box-shadow: 0 0 0 3px rgba(127, 90, 240, 0.25); } /* ====================================================== DELETE CONFIRMATION ====================================================== */ .main-content > p { max-width: 520px; background: linear-gradient( 135deg, rgba(255,107,107,0.18), rgba(255,46,99,0.12) ); border: 1px solid rgba(255,107,107,0.4); padding: 18px 22px; border-radius: 18px; margin-bottom: 18px; } /* ====================================================== BUTTONS ====================================================== */

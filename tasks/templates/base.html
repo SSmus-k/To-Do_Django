@@ -4,34 +4,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}To-Do Django{% endblock %}</title>
+    <title>{% block title %}Productivity Dashboard{% endblock %}</title>
+
+    <!-- Modern Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <script src="{% static 'js/theme.js' %}"></script>
 </head>
+
 <body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <h1 class="nav-title">To-Do Django</h1>
-            <div class="nav-search">
-                <form method="get" action="{% url 'task_list' %}">
-                    <input type="text" name="q" placeholder="Search tasks..." value="{{ request.GET.q }}">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-            <div class="nav-actions">
-                <button id="theme-toggle">Toggle Theme</button>
-                {% if user.is_authenticated %}
-                    <span>Welcome, {{ user.username }}</span>
-                    <a href="{% url 'logout' %}">Logout</a>
-                {% else %}
-                    <a href="{% url 'login' %}">Login</a>
-                    <a href="{% url 'signup' %}">Signup</a>
-                {% endif %}
+<div class="app-container">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="logo">⚡ Productivity</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="?category=all" class="nav-item active">
+                <span class="icon">📊</span> Dashboard
+            </a>
+            <a href="?category=Tasks" class="nav-item">
+                <span class="icon">✅</span> Tasks
+            </a>
+            <a href="?category=Work" class="nav-item">
+                <span class="icon">💼</span> Work
+            </a>
+            <a href="?category=Personal" class="nav-item">
+                <span class="icon">🏠</span> Personal
+            </a>
+            <a href="?category=Learning" class="nav-item">
+                <span class="icon">📚</span> Learning
+            </a>
+            <a href="?category=Trash" class="nav-item">
+                <span class="icon">🗑️</span> Trash
+            </a>
+            <a href="?category=Summary" class="nav-item">
+                <span class="icon">📈</span> Summary
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="theme-switcher">
+                <button id="theme-warm">Warm</button>
+                <button id="theme-cool">Cool</button>
+                <button id="theme-dark">Dark</button>
+                <input type="color" id="theme-custom" value="#7f5af0">
             </div>
         </div>
-    </nav>
-    <main class="container">
-        {% block content %}{% endblock %}
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        {% block content %}
+        <h1>Welcome Back 👋</h1>
+        <p>Your productivity cockpit is ready.</p>
+        {% endblock %}
     </main>
+
+    <!-- Right Panel -->
+    <aside class="right-panel">
+        <div class="panel-section">
+            <h3>Daily Session</h3>
+            <div class="session-details">
+                <p>⏱ Focus Time: <strong>2h 30m</strong></p>
+                <p>☕ Breaks: <strong>3</strong></p>
+                <p>✅ Tasks Completed: <strong>5</strong></p>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <h3>Tags</h3>
+            <div class="tags">
+                <span class="tag">Urgent</span>
+                <span class="tag">Meeting</span>
+                <span class="tag">Project</span>
+            </div>
+        </div>
+
+        <div class="panel-section">
+            <h3>Checklist</h3>
+            <ul class="checklist">
+                <li><input type="checkbox" checked> Morning routine</li>
+                <li><input type="checkbox"> Review goals</li>
+                <li><input type="checkbox" checked> Plan day</li>
+                <li><input type="checkbox"> Evening reflection</li>
+            </ul>
+        </div>
+    </aside>
+
+</div>
 </body>
 </html>
