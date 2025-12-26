@@ -31,25 +31,29 @@
     </section>
 
     <section class="habits-section">
-        <h2>Daily Habits <a href="{% url 'habit_create' %}" class="add-link">+</a></h2>
-        <div class="habit-cards">
-            {% for habit in habits %}
-            <div class="habit-card">
-                <div class="habit-icon">{{ habit.icon }}</div>
-                <h4>{{ habit.name }}</h4>
-                <div class="habit-progress">
-                    <div class="progress-bar" style="width: {{ habit.progress }}%"></div>
-                </div>
-                <div class="habit-actions">
-                    <a href="{% url 'toggle_habit' habit.pk %}" class="btn btn-primary">Complete</a>
-                    <a href="{% url 'habit_update' habit.pk %}" class="btn btn-warning">Edit</a>
-                    <a href="{% url 'habit_delete' habit.pk %}" class="btn btn-danger">Delete</a>
-                </div>
+    <div class="section-header">
+        <h2>Daily Habits</h2>
+        <a href="{% url 'habit_create' %}" class="add-link">+</a>
+    </div>
+
+    <div class="habit-cards">
+        {% for habit in habits %}
+        <div class="habit-card">
+            <div class="habit-icon">{{ habit.icon }}</div>
+            <h4 class="habit-name">{{ habit.name }}</h4>
+            <div class="habit-progress">
+                <div class="progress-bar" style="width: {{ habit.progress|default:0 }}%;"></div>
             </div>
-            {% empty %}
-            <p>No habits yet. <a href="{% url 'habit_create' %}">Add one</a></p>
-            {% endfor %}
+            <div class="habit-actions">
+                <a href="{% url 'toggle_habit' habit.pk %}" class="btn btn-primary">Complete</a>
+                <a href="{% url 'habit_update' habit.pk %}" class="btn btn-warning">Edit</a>
+                <a href="{% url 'habit_delete' habit.pk %}" class="btn btn-danger">Delete</a>
+            </div>
         </div>
+        {% empty %}
+        <p class="no-habits">No habits yet. <a href="{% url 'habit_create' %}">Add one</a></p>
+        {% endfor %}
+    </div>
     </section>
 
     <section class="reminders-section">
