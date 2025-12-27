@@ -156,3 +156,37 @@ def toggle_habit(request, pk):
         habit.progress = 0  # Reset after completion
     habit.save()
     return redirect('task_list')
+from django.shortcuts import render
+from .models import Task
+
+def dashboard(request):
+    tasks = Task.objects.filter(user=request.user)
+    return render(request, './tasks/task_list.html', {'tasks': tasks})
+
+def task_list(request):
+    tasks = Task.objects.filter(user=request.user, category='Tasks')
+    return render(request, './tasks/tasks.html', {'tasks': tasks, 'title': 'Tasks'})
+
+def work_list(request):
+    tasks = Task.objects.filter(user=request.user, category='Work')
+    return render(request, './tasks/tasks.html', {'tasks': tasks, 'title': 'Work'})
+def personal_list(request):
+    tasks = Task.objects.filter(user=request.user, category='Personal')
+    return render(request, './tasks/tasks.html', {'tasks': tasks, 'title': 'Personal'})
+
+def learning_list(request):
+    tasks = Task.objects.filter(user=request.user, category='Learning')
+    return render(request, './tasks/tasks.html', {'tasks': tasks, 'title': 'Learning'})
+def trash_list(request):
+    tasks = Task.objects.filter(user=request.user, category='Trash')
+    return render(request, './tasks/tasks.html', {'tasks': tasks, 'title': 'Trash'})
+
+def summary(request):
+    tasks = Task.objects.filter(user=request.user)
+    summary_data = {
+        'total': tasks.count(),
+        'completed': tasks.filter(status='Completed').count(),
+        'in_progress': tasks.filter(status='In Progress').count(),
+        'todo': tasks.filter(status='To Do').count(),
+    }
+    return render(request, 'summary.html', {'summary': summary_data})

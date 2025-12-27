@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2>{{ title }}</h2>
+
+<div class="activity-cards">
+    {% for task in tasks %}
+    <div class="activity-card">
+        <h4>{{ task.title }}</h4>
+        <p>{{ task.description|default:"No description" }}</p>
+        <div class="todo-meta">
+            <span>Status: {{ task.status }}</span>
+            <span>Priority: {{ task.priority }}</span>
+            {% if task.due_date %}<span>Due: {{ task.due_date }}</span>{% endif %}
+        </div>
+    </div>
+    {% empty %}
+    <p>No tasks found.</p>
+    {% endfor %}
+</div>
+{% endblock %}

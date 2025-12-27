@@ -23,27 +23,15 @@
         </div>
 
         <nav class="sidebar-nav">
-            <a href="?category=all" class="nav-item active">
-                <span class="icon">📊</span> Dashboard
-            </a>
-            <a href="?category=Tasks" class="nav-item">
-                <span class="icon">✅</span> Tasks
-            </a>
-            <a href="?category=Work" class="nav-item">
-                <span class="icon">💼</span> Work
-            </a>
-            <a href="?category=Personal" class="nav-item">
-                <span class="icon">🏠</span> Personal
-            </a>
-            <a href="?category=Learning" class="nav-item">
-                <span class="icon">📚</span> Learning
-            </a>
-            <a href="?category=Trash" class="nav-item">
-                <span class="icon">🗑️</span> Trash
-            </a>
-            <a href="?category=Summary" class="nav-item">
-                <span class="icon">📈</span> Summary
-            </a>
+            <nav class="sidebar-nav">
+                <a href="{% url 'dashboard' %}" class="nav-item">📊 Dashboard</a>
+                <a href="{% url 'tasks' %}" class="nav-item">✅ Tasks</a>
+                <a href="{% url 'work' %}" class="nav-item">💼 Work</a>
+                <a href="{% url 'personal' %}" class="nav-item">🏠 Personal</a>
+                <a href="{% url 'learning' %}" class="nav-item">📚 Learning</a>
+                <a href="{% url 'trash' %}" class="nav-item">🗑️ Trash</a>
+                <a href="{% url 'summary' %}" class="nav-item">📈 Summary</a>
+            </nav>
         </nav>
 
         <div class="sidebar-footer">
