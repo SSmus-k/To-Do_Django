@@ -49,7 +49,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/task_form.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -60,7 +60,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'tasks/task_form.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
@@ -69,7 +69,7 @@ class TaskUpdateView(LoginRequiredMixin, UpdateView):
 class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'tasks/task_confirm_delete.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def get_queryset(self):
         return Task.objects.filter(user=self.request.user)
@@ -79,7 +79,7 @@ class HabitCreateView(LoginRequiredMixin, CreateView):
     model = Habit
     form_class = HabitForm
     template_name = 'tasks/habit_form.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -90,7 +90,7 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
     model = Habit
     form_class = HabitForm
     template_name = 'tasks/habit_form.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
@@ -99,7 +99,7 @@ class HabitUpdateView(LoginRequiredMixin, UpdateView):
 class HabitDeleteView(LoginRequiredMixin, DeleteView):
     model = Habit
     template_name = 'tasks/habit_confirm_delete.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def get_queryset(self):
         return Habit.objects.filter(user=self.request.user)
@@ -109,7 +109,7 @@ class ReminderCreateView(LoginRequiredMixin, CreateView):
     model = Reminder
     form_class = ReminderForm
     template_name = 'tasks/reminder_form.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -120,7 +120,7 @@ class ReminderUpdateView(LoginRequiredMixin, UpdateView):
     model = Reminder
     form_class = ReminderForm
     template_name = 'tasks/reminder_form.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def get_queryset(self):
         return Reminder.objects.filter(user=self.request.user)
@@ -129,7 +129,7 @@ class ReminderUpdateView(LoginRequiredMixin, UpdateView):
 class ReminderDeleteView(LoginRequiredMixin, DeleteView):
     model = Reminder
     template_name = 'tasks/reminder_confirm_delete.html'
-    success_url = reverse_lazy('task_list')
+    success_url = reverse_lazy('dashboard')
 
     def get_queryset(self):
         return Reminder.objects.filter(user=self.request.user)
@@ -145,7 +145,7 @@ def toggle_complete(request, pk):
     else:
         task.status = 'To Do'
     task.save()
-    return redirect('task_list')
+    return redirect('dashboard')
 
 # Toggle habit progress
 @login_required
@@ -155,7 +155,7 @@ def toggle_habit(request, pk):
     if habit.progress >= 100:
         habit.progress = 0  # Reset after completion
     habit.save()
-    return redirect('task_list')
+    return redirect('dashboard')
 from django.shortcuts import render
 from .models import Task
 
