@@ -11,7 +11,7 @@ A simple and efficient to-do application built with Django.
 Django | Python | SQLite
 
 ## Status
-🚧 In progress
+🚧 Still In progress
 
 ## Author
 Sujan Bhusal
