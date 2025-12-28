@@ -8,7 +8,7 @@ A simple and efficient to-do application built with Django.
 - Filter completed and pending tasks
 
 ## Tech Stack
-Django | Python | SQLite
+Django | Python | SQLite | (a bit of brain damage as well)
 
 ## Status
 🚧 Still In progress
