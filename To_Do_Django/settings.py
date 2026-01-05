@@ -132,3 +132,6 @@ LOGOUT_REDIRECT_URL = "task_list"
 # DEFAULT PRIMARY KEY
 # ======================
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CSRF_TRUSTED_ORIGINS = [
+    "https://to-dodjango-production.up.railway.app",
+]
