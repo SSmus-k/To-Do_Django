@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
 
 class Task(models.Model):
     CATEGORY_CHOICES = [
@@ -31,7 +32,16 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='Tasks')
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default='To Do')
-
+    estimated_minutes = models.PositiveIntegerField(default=25)
+    started_at = models.DateTimeField(blank=True, null=True)
+    @property
+    def remaining_time(self):
+        if self.status != 'In Progress' or not self.started_at:
+            return self.estimated_minutes * 60
+        
+        elapsed = (timezone.now() - self.started_at).total_seconds()
+        remaining = self.estimated_minutes * 60 - elapsed
+        return max(0, int(remaining))
     def __str__(self):
         return self.title
 

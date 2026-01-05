@@ -90,11 +90,18 @@
             <div class="todo-item" data-status="{{ task.status }}">
                 <div class="todo-content">
                     <h4>{{ task.title }}</h4>
+                    {% if task.status == 'In Progress' %}
+                            <div class="task-timer"
+                                data-remaining="{{ task.remaining_time }}"
+                                data-task-id="{{ task.id }}">
+                                ⏱ <span id="timer-{{ task.id }}"></span>
+                            </div>
+                    {% endif %}
                     {% if task.description %}<p>{{ task.description }}</p>{% endif %}
                     <div class="todo-meta">
                         <span class="priority {{ task.priority|lower }}">{{ task.priority }}</span>
                         <span class="category">{{ task.category }}</span>
-                        {% if task.due_date %}<span class="due-date">{{ task.due_date }}</span>{% endif %}
+                    {% if task.due_date %}<span class="due-date">{{ task.due_date }}</span>{% endif %}
                     </div>
                 </div>
                 <div class="todo-actions">
@@ -114,4 +121,26 @@
         <a href="{% url 'task_create' %}" class="btn btn-primary add-task-btn">+ Add New Task</a>
     </section>
 </div>
+<script>
+document.querySelectorAll(".task-timer").forEach(timerEl => {
+    let remaining = parseInt(timerEl.dataset.remaining);
+    const span = timerEl.querySelector("span");
+
+    function update() {
+        if (remaining <= 0) {
+            span.textContent = "Time up";
+            return;
+        }
+
+        const m = Math.floor(remaining / 60);
+        const s = remaining % 60;
+        span.textContent = `${m}:${String(s).padStart(2, "0")}`;
+        remaining--;
+        setTimeout(update, 1000);
+    }
+
+    update();
+});
+</script>
+
 {% endblock %}

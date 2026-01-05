@@ -100,4 +100,5 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Checklist item changed:', this.checked);
         });
     });
+    
 });

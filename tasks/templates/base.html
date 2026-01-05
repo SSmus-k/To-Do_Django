@@ -14,6 +14,12 @@
 </head>
 
 <body>
+    <button class="hamburger" id="hamburger">
+  <span></span>
+  <span></span>
+  <span></span>
+</button>
+
 <div class="app-container">
 
     <!-- Sidebar -->
@@ -82,6 +88,15 @@
             </ul>
         </div>
     </aside>
+<script>
+const hamburger = document.getElementById("hamburger");
+const sidebar = document.querySelector(".sidebar");
+
+hamburger.addEventListener("click", () => {
+    sidebar.classList.toggle("open");
+    hamburger.classList.toggle("active");
+});
+</script>
 
 </div>
 </body>

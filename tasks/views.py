@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -8,6 +8,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
 from .models import Task, Habit, Reminder
 from .forms import TaskForm, HabitForm, ReminderForm
+from django.utils import timezone 
 
 # Signup view
 def signup(request):
@@ -137,13 +138,19 @@ class ReminderDeleteView(LoginRequiredMixin, DeleteView):
 # Toggle complete
 @login_required
 def toggle_complete(request, pk):
-    task = Task.objects.get(pk=pk, user=request.user)
+    task = get_object_or_404(Task, pk=pk, user=request.user)
+
     if task.status == 'To Do':
         task.status = 'In Progress'
+        task.started_at = timezone.now()
+
     elif task.status == 'In Progress':
         task.status = 'Completed'
+
     else:
         task.status = 'To Do'
+        task.started_at = None
+
     task.save()
     return redirect('dashboard')
 
