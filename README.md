@@ -13,5 +13,9 @@ Django | Python | SQLite
 ## Status
 🚧 In progress
 
+## CI updated
+.github/workflows/Django.yml
+
+
 ## Author
 Sujan Bhusal
